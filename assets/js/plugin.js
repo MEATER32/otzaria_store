@@ -1,5 +1,5 @@
 (function () {
-  const DATA_URL = "data/plugins.json";
+  const DATA_URL = "data/plugins.json?v=20260428-3";
   const pluginDetails = document.getElementById("pluginDetails");
 
   function escapeHtml(value) {
@@ -31,6 +31,46 @@
     return params.get("id");
   }
 
+  function formatHebrewDate(dateValue) {
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateValue || "");
+
+    if (!match) {
+      return dateValue || "";
+    }
+
+    const date = new Date(
+      Date.UTC(
+        Number(match[1]),
+        Number(match[2]) - 1,
+        Number(match[3]),
+        12
+      )
+    );
+
+    try {
+      return new Intl.DateTimeFormat("he-u-ca-hebrew", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
+      }).format(date);
+    } catch (error) {
+      return dateValue;
+    }
+  }
+
+  function canDirectInstall(plugin) {
+    return /\.otzplugin(?:[?#].*)?$/i.test(plugin.downloadUrl || "");
+  }
+
+  function buildDirectInstallUrl(plugin) {
+    if (!canDirectInstall(plugin)) {
+      return "";
+    }
+
+    return "otzaria://plugin/install?url=" + encodeURIComponent(plugin.downloadUrl);
+  }
+
   function renderNotFound() {
     document.title = "התוסף לא נמצא";
     pluginDetails.innerHTML =
@@ -59,6 +99,20 @@
         return '<span class="tag-pill">' + escapeHtml(tag) + "</span>";
       })
       .join("");
+    const formattedUpdatedAt = formatHebrewDate(plugin.updatedAt);
+    const directInstallUrl = buildDirectInstallUrl(plugin);
+    const actionLinks =
+      '<a class="button button--solid" href="' +
+      escapeHtml(plugin.downloadUrl) +
+      '" target="_blank" rel="noreferrer">הורדת התוסף</a>' +
+      (directInstallUrl
+        ? '<button class="button button--accent" type="button" data-direct-install-url="' +
+          escapeHtml(directInstallUrl) +
+          '">התקנה ישירה לאוצריא</button>'
+        : "") +
+      '<a class="button button--ghost" href="' +
+      escapeHtml(plugin.homepage) +
+      '" target="_blank" rel="noreferrer">עמוד הפרויקט</a>';
 
     const instructions =
       plugin.installInstructions && plugin.installInstructions.length
@@ -104,10 +158,7 @@
       "      <h1>" + escapeHtml(plugin.name) + "</h1>" +
       "      <p>" + escapeHtml(plugin.description) + "</p>" +
       '      <div class="plugin-meta-list">' + tags + "</div>" +
-      '      <div class="plugin-actions">' +
-      '        <a class="button button--solid" href="' + escapeHtml(plugin.downloadUrl) + '" target="_blank" rel="noreferrer">הורדת התוסף</a>' +
-      '        <a class="button button--ghost" href="' + escapeHtml(plugin.homepage) + '" target="_blank" rel="noreferrer">עמוד הפרויקט</a>' +
-      "      </div>" +
+      '      <div class="plugin-actions">' + actionLinks + "</div>" +
       "    </div>" +
       "  </section>" +
       '  <section class="plugin-page__sections">' +
@@ -116,7 +167,7 @@
       '      <div class="plugin-info-grid">' +
       buildInfoCard("סטטוס", formatStatus(plugin.status)) +
       buildInfoCard("גרסה", plugin.version) +
-      buildInfoCard("עודכן", plugin.updatedAt) +
+      buildInfoCard("עודכן ב", formattedUpdatedAt) +
       buildInfoCard("תאימות", plugin.compatibleWith) +
       buildInfoCard("מפתח", plugin.author) +
       "      </div>" +
@@ -158,6 +209,17 @@
       renderNotFound();
     }
   }
+
+  document.addEventListener("click", function (event) {
+    const button = event.target.closest("[data-direct-install-url]");
+
+    if (!button) {
+      return;
+    }
+
+    event.preventDefault();
+    window.location.assign(button.getAttribute("data-direct-install-url"));
+  });
 
   loadPlugin();
 })();

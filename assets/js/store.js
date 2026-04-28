@@ -1,5 +1,5 @@
 (function () {
-  const DATA_URL = "data/plugins.json";
+  const DATA_URL = "data/plugins.json?v=20260428-3";
 
   const searchInput = document.getElementById("searchInput");
   const statusFilter = document.getElementById("statusFilter");
@@ -40,37 +40,120 @@
     return "plugin.html?id=" + encodeURIComponent(id);
   }
 
+  function formatHebrewDate(dateValue) {
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateValue || "");
+
+    if (!match) {
+      return dateValue || "";
+    }
+
+    const date = new Date(
+      Date.UTC(
+        Number(match[1]),
+        Number(match[2]) - 1,
+        Number(match[3]),
+        12
+      )
+    );
+
+    try {
+      return new Intl.DateTimeFormat("he-u-ca-hebrew", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
+      }).format(date);
+    } catch (error) {
+      return dateValue;
+    }
+  }
+
+  function canDirectInstall(plugin) {
+    return /\.otzplugin(?:[?#].*)?$/i.test(plugin.downloadUrl || "");
+  }
+
+  function buildDirectInstallUrl(plugin) {
+    if (!canDirectInstall(plugin)) {
+      return "";
+    }
+
+    return "otzaria://plugin/install?url=" + encodeURIComponent(plugin.downloadUrl);
+  }
+
   function buildCard(plugin) {
     const tags = (plugin.tags || [])
-      .slice(0, 3)
+      .slice(0, 4)
       .map(function (tag) {
         return '<span class="tag-pill">' + escapeHtml(tag) + "</span>";
       })
       .join("");
+    const formattedUpdatedAt = formatHebrewDate(plugin.updatedAt);
+    const directInstallUrl = buildDirectInstallUrl(plugin);
+    const pluginUrl = buildPluginUrl(plugin.id);
+    const actionLinks =
+      '<div class="plugin-card__actions">' +
+      '  <a class="plugin-card__action plugin-card__action--download" href="' +
+      escapeHtml(plugin.downloadUrl) +
+      '" target="_blank" rel="noreferrer">הורדה</a>' +
+      (directInstallUrl
+        ? '  <button class="plugin-card__action plugin-card__action--install" type="button" data-direct-install-url="' +
+          escapeHtml(directInstallUrl) +
+          '">התקנה ישירה</button>'
+        : "") +
+      "</div>";
 
     return (
       '<article class="plugin-card">' +
-      '  <div class="plugin-card__visual">' +
+      '  <a class="plugin-card__visual-link" href="' + pluginUrl + '">' +
+      '    <div class="plugin-card__visual">' +
       '    <img src="' + escapeHtml(plugin.image) + '" alt="' + escapeHtml(plugin.name) + '">' +
-      '    <a class="plugin-card__download" href="' + escapeHtml(plugin.downloadUrl) + '" target="_blank" rel="noreferrer">הורדה</a>' +
-      "  </div>" +
-      '  <a class="plugin-card__body" href="' + buildPluginUrl(plugin.id) + '">' +
+      "    </div>" +
+      "  </a>" +
+      '  <div class="plugin-card__body">' +
       '    <div class="plugin-card__topline">' +
       '      <span class="status-pill status-pill--' + escapeHtml(plugin.status) + '">' + formatStatus(plugin.status) + "</span>" +
       '      <span class="meta-pill">גרסה ' + escapeHtml(plugin.version) + "</span>" +
       "    </div>" +
-      '    <div>' +
+      '    <a class="plugin-card__summary" href="' + pluginUrl + '">' +
       '      <h3 class="plugin-card__title">' + escapeHtml(plugin.name) + "</h3>" +
       '      <p class="plugin-card__description">' + escapeHtml(plugin.shortDescription) + "</p>" +
-      "    </div>" +
+      "    </a>" +
       '    <div class="plugin-meta-list">' + tags + "</div>" +
+      actionLinks +
       '    <div class="plugin-card__footer">' +
-      '      <span class="plugin-card__link">לפרטים מלאים</span>' +
-      '      <span class="meta-pill">עודכן ' + escapeHtml(plugin.updatedAt) + "</span>" +
+      '      <a class="plugin-card__link" href="' + pluginUrl + '">לפרטים מלאים</a>' +
+      '      <span class="meta-pill">עודכן ב־' + escapeHtml(formattedUpdatedAt) + "</span>" +
       "    </div>" +
-      "  </a>" +
+      "  </div>" +
       "</article>"
     );
+  }
+
+  function handleDirectInstallClick(event) {
+    const button = event.target.closest("[data-direct-install-url]");
+
+    if (!button) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    window.location.assign(button.getAttribute("data-direct-install-url"));
+  }
+
+  function renderStoreEmptyState() {
+    emptyState.innerHTML =
+      '<img class="empty-state__image" src="assets/images/empty-store.svg" alt="">' +
+      "<h3>בקרוב יופיעו כאן תוספים נוספים</h3>" +
+      "<p>אם יש לכם תוסף מוכן לאוצריא, אפשר לשלוח אותו לחנות ולהציג אותו כאן עם עמוד מסודר, תגיות, הוראות וקישורי התקנה.</p>" +
+      '<a class="button button--solid" href="contribute.html">איך מפרסמים תוסף?</a>';
+  }
+
+  function renderFilterEmptyState() {
+    emptyState.innerHTML =
+      '<img class="empty-state__image" src="assets/images/empty-store.svg" alt="">' +
+      "<h3>לא נמצאו תוספים לפי הסינון שבחרתם</h3>" +
+      "<p>נסו לחפש בשם אחר, להסיר תגית, או לבחור סטטוס שונה כדי לראות תוצאות נוספות.</p>";
   }
 
   function renderTags(plugins) {
@@ -116,6 +199,7 @@
 
     if (allPlugins.length === 0) {
       pluginsGrid.innerHTML = "";
+      renderStoreEmptyState();
       emptyState.classList.remove("hidden");
       resultsMeta.textContent = "עדיין אין תוספים בחנות";
       return;
@@ -141,6 +225,9 @@
 
     pluginsGrid.innerHTML = filtered.map(buildCard).join("");
     emptyState.classList.toggle("hidden", filtered.length !== 0);
+    if (filtered.length === 0) {
+      renderFilterEmptyState();
+    }
     resultsMeta.textContent =
       filtered.length === 0
         ? "לא נמצאו תוספים לפי הסינון שבחרתם"
@@ -159,6 +246,7 @@
 
       allPlugins = await response.json();
       pluginCount.textContent = allPlugins.length + " תוספים";
+      renderStoreEmptyState();
       renderTags(allPlugins);
       applyFilters();
     } catch (error) {
@@ -167,12 +255,13 @@
       pluginsGrid.innerHTML = "";
       emptyState.classList.remove("hidden");
       emptyState.innerHTML =
-        "<h3>שגיאה בטעינת הנתונים</h3><p>בדקו שקובץ <code>data/plugins.json</code> קיים ותקין.</p>";
+        "<h3>שגיאה בטעינת הנתונים</h3><p>בדקו שקובץ <code>data/plugins.json</code> קיים, תקין ונגיש לדפדפן.</p>";
     }
   }
 
   searchInput.addEventListener("input", applyFilters);
   statusFilter.addEventListener("change", applyFilters);
+  document.addEventListener("click", handleDirectInstallClick);
 
   loadPlugins();
 })();

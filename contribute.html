@@ -6,10 +6,10 @@
     <title>איך מוסיפים תוסף</title>
     <meta
       name="description"
-      content="מדריך קצר וברור להוספת תוסף חדש לחנות התוספים של אוצריא."
+      content="מדריך קצר וברור לפרסום תוסף חדש בחנות התוספים של אוצריא."
     >
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=20260428-3">
   </head>
   <body>
     <div class="page-shell">
@@ -29,10 +29,10 @@
 
           <section class="plugin-page__sections">
             <div class="plugin-section">
-              <h1>איך מוסיפים תוסף חדש</h1>
+              <h1>איך מפרסמים תוסף חדש בחנות</h1>
               <p>
-                לא צריך לגעת במבנה האתר. מוסיפים תמונה, מעדכנים את
-                <code>data/plugins.json</code>, וזהו.
+                מוסיפים תמונה, משלימים את פרטי התוסף בקובץ הנתונים, ובודקים
+                שהקישורים עובדים. כך התוסף יופיע בחנות עם עמוד פרטים מלא.
               </p>
             </div>
 
@@ -62,12 +62,13 @@
     "author": "שם המפתח או הצוות",
     "updatedAt": "2026-04-28",
     "compatibleWith": "0.9.88 ומעלה",
-    "tags": ["חיפוש", "כלים"],
+    "tags": ["חיפוש", "מראה תואם לאוצריא"],
     "image": "assets/images/my-plugin.svg",
     "screenshots": [],
-    "downloadUrl": "https://github.com/USER/REPO/releases/latest/download/plugin.zip",
+    "downloadUrl": "https://your-domain.com/plugins/my-plugin.otzplugin",
     "homepage": "https://github.com/USER/REPO",
     "installInstructions": [
+      "אם אוצריא מותקנת במחשב, אפשר ללחוץ בחנות על התקנה ישירה.",
       "מורידים את קובץ התוסף.",
       "פותחים את מסך התוספים בתוכנה.",
       "בוחרים התקנה מקובץ.",
@@ -78,10 +79,24 @@
             </div>
 
             <div class="plugin-section">
-              <h2>שלב 3: בודקים 4 דברים</h2>
+              <h2>שלב 3: מוודאים שקישור ההורדה מתאים גם להתקנה ישירה</h2>
+              <p>
+                כאשר <code>downloadUrl</code> מצביע ישירות לקובץ
+                <code>.otzplugin</code>, החנות יוצרת אוטומטית כפתור
+                &quot;התקנה ישירה לאוצריא&quot; ליד כפתור ההורדה.
+              </p>
+              <pre class="code-block"><code>otzaria://plugin/install?url=https%3A%2F%2Fyour-domain.com%2Fplugins%2Fmy-plugin.otzplugin</code></pre>
+              <p>
+                חשוב להשתמש בקישור ישיר לקובץ התוסף עצמו, ולא לעמוד הורדה כללי.
+              </p>
+            </div>
+
+            <div class="plugin-section">
+              <h2>שלב 4: בודקים 5 דברים</h2>
               <ol class="plugin-list">
                 <li>שהתמונה נטענת.</li>
                 <li>שכפתור ההורדה עובד.</li>
+                <li>שכפתור ההתקנה הישירה מופיע ועובד, אם הקישור הוא לקובץ <code>.otzplugin</code>.</li>
                 <li>שעמוד התוסף נפתח.</li>
                 <li>שאין שגיאת JSON בגלל פסיק מיותר.</li>
               </ol>
@@ -92,8 +107,9 @@
               <ol class="plugin-list">
                 <li><code>id</code> צריך להיות באנגלית, בלי רווחים, ועדיף עם מקפים.</li>
                 <li><code>status</code> צריך להיות <code>stable</code>, <code>beta</code> או <code>experimental</code>.</li>
-                <li><code>downloadUrl</code> צריך להיות קישור אמיתי וישיר.</li>
-                <li>לא מוסיפים תוספי דמה.</li>
+                <li><code>downloadUrl</code> צריך להיות קישור ישיר לקובץ <code>.otzplugin</code> אם רוצים התקנה ישירה מתוך אוצריא.</li>
+                <li>התגית <code>מראה תואם לאוצריא</code> מיועדת לתוספים שמשתמשים בשפת העיצוב של Material 3 ומתאימים חזותית לממשק של אוצריא.</li>
+                <li>השתמשו בתגיות רק כשהן באמת עוזרות למשתמש להבין מה התוסף נותן.</li>
               </ol>
             </div>
           </section>

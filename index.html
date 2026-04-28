@@ -6,10 +6,10 @@
     <title>חנות התוספים של אוצריא</title>
     <meta
       name="description"
-      content="חנות תוספים פשוטה, נקייה ונוחה להתקנה עבור אוצריא."
+      content="חנות התוספים של אוצריא: תוספים נבחרים, דפי הסבר נוחים והתקנה מהירה."
     >
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=20260428-3">
   </head>
   <body>
     <div class="page-shell">
@@ -26,28 +26,33 @@
       <main class="page-main">
         <section class="hero-card">
           <div class="hero-card__content">
-            <span class="eyebrow">חנות תוספים</span>
-            <h1>להרחיב את אוצריא בלי להסתבך</h1>
+            <span class="eyebrow">תוספים לאוצריא</span>
+            <h1>להוסיף יכולות חדשות לאוצריא בלחיצה אחת</h1>
             <p>
-              החנות מוכנה לקלוט תוספים אמיתיים בלבד. היא בנויה כך שאפשר להוסיף
-              תוסף חדש מתוך קובץ JSON אחד, בלי לבנות אתר מחדש ובלי לגעת במבנה
-              העמודים.
+              כאן תמצאו תוספים שנבנו במיוחד לחוויית הלימוד באוצריא, עם עמודי
+              הסבר ברורים, קישורי הורדה, ובמקרים מתאימים גם התקנה ישירה מתוך
+              התוכנה.
             </p>
             <div class="hero-card__actions">
               <a class="button button--solid" href="#pluginsGrid">לעיון בתוספים</a>
-              <a class="button button--ghost" href="contribute.html">מדריך לתורמים</a>
+              <a class="button button--ghost" href="contribute.html">פרסום תוסף בחנות</a>
+            </div>
+            <div class="hero-highlights" aria-label="יתרונות החנות">
+              <span class="hero-highlight">עמוד מסודר לכל תוסף</span>
+              <span class="hero-highlight">חיפוש וסינון מהירים</span>
+              <span class="hero-highlight">התקנה ישירה כאשר נתמכת</span>
             </div>
           </div>
           <div class="hero-card__aside" aria-hidden="true">
             <div class="stats-card">
-              <span class="stats-card__label">מה יש כאן?</span>
+              <span class="stats-card__label">זמין עכשיו</span>
               <strong id="pluginCount">0 תוספים</strong>
-              <span class="stats-card__muted">עמודים סטטיים, JSON אחד, בלי build מסובך</span>
+              <span class="stats-card__muted">כל תוסף כולל תאימות, הוראות, ותצוגה נקייה שמתאימה לחנות.</span>
             </div>
             <div class="steps-card">
-              <span>1. מוסיפים תיאור ותמונה</span>
-              <span>2. שומרים ב־JSON</span>
-              <span>3. החנות מתעדכנת אוטומטית</span>
+              <span>הורדה רגילה לצד התקנה ישירה</span>
+              <span>תגיות שעוזרות למצוא את התוסף המתאים</span>
+              <span>פרטי גרסה ותאימות במקום אחד</span>
             </div>
           </div>
         </section>
@@ -81,7 +86,7 @@
         <section class="section-heading">
           <div>
             <span class="eyebrow">רשימת תוספים</span>
-            <h2>התקנה פשוטה, מראה אחיד</h2>
+            <h2>בחרו את התוסף שמתאים לכם</h2>
           </div>
           <p id="resultsMeta" class="section-heading__meta">טוען תוספים...</p>
         </section>
@@ -98,16 +103,16 @@
             src="assets/images/empty-store.svg"
             alt=""
           >
-          <h3>עדיין אין כאן תוספים</h3>
+          <h3>בקרוב יופיעו כאן תוספים נוספים</h3>
           <p>
-            החנות מוכנה. ברגע שיוסיפו את התוסף הראשון ל־<code>data/plugins.json</code>,
-            הכרטיסים והעמודים יופיעו אוטומטית.
+            אם יש לכם תוסף מוכן לאוצריא, אפשר לשלוח אותו לחנות ולהציג אותו כאן
+            עם עמוד מסודר, תגיות, הוראות וקישורי התקנה.
           </p>
-          <a class="button button--solid" href="contribute.html">איך מוסיפים תוסף ראשון?</a>
+          <a class="button button--solid" href="contribute.html">איך מפרסמים תוסף?</a>
         </section>
       </main>
     </div>
 
-    <script src="assets/js/store.js"></script>
+    <script src="assets/js/store.js?v=20260428-3"></script>
   </body>
 </html>
