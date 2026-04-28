@@ -35,7 +35,7 @@
     "tags": ["מראה תואם לאוצריא", "דפי מקורות", "ארגון", "לימוד", "כתיבה"],
     "image": "assets/images/dapei-mekorot.svg",
     "screenshots": [],
-    "downloadUrl": "https://raw.githubusercontent.com/lodbig/otzaria_store/main/plugins/dapei-mekorot/dapei-mekorot-manager.otzplugin",
+    "downloadUrl": "https://raw.githubusercontent.com/Y-PLONI/otzaria_store/main/plugins/dapei-mekorot/dapei-mekorot-manager.otzplugin",
     "homepage": "https://otzaria.org/forum/post/13211",
     "installInstructions": [
       "אם אוצריא מותקנת במחשב, אפשר ללחוץ על 'התקנה ישירה לאוצריא'.",
@@ -58,7 +58,7 @@
     "tags": ["מראה תואם לאוצריא", "מראי מקומות", "הדגשה", "ארגון", "עיון"],
     "image": "assets/images/marei-mekomot.svg",
     "screenshots": [],
-    "downloadUrl": "https://raw.githubusercontent.com/lodbig/otzaria_store/main/plugins/marei-mekomot/mareimakom.otzplugin",
+    "downloadUrl": "https://raw.githubusercontent.com/Y-PLONI/otzaria_store/main/plugins/marei-mekomot/mareimakom.otzplugin",
     "homepage": "https://otzaria.org/forum/post/13336",
     "installInstructions": [
       "אם אוצריא מותקנת במחשב, אפשר ללחוץ על 'התקנה ישירה לאוצריא'.",
@@ -81,7 +81,7 @@
     "tags": ["מראה תואם לאוצריא", "סימניות", "ניווט", "רצף לימוד", "לימוד"],
     "image": "assets/images/smart-bookmark.svg",
     "screenshots": [],
-    "downloadUrl": "https://raw.githubusercontent.com/lodbig/otzaria_store/main/plugins/smart-bookmark/smart_bookmark.otzplugin",
+    "downloadUrl": "https://raw.githubusercontent.com/Y-PLONI/otzaria_store/main/plugins/smart-bookmark/smart_bookmark.otzplugin",
     "homepage": "https://otzaria.org/forum/post/13376",
     "installInstructions": [
       "אם אוצריא מותקנת במחשב, אפשר ללחוץ על 'התקנה ישירה לאוצריא'.",
@@ -104,7 +104,7 @@
     "tags": ["מראה תואם לאוצריא", "נוכחות", "מעקב", "סדרים", "זמנים"],
     "image": "assets/images/shmirat-sedarim.svg",
     "screenshots": [],
-    "downloadUrl": "https://raw.githubusercontent.com/lodbig/otzaria_store/main/plugins/shmirat-sedarim/shmiz2.otzplugin",
+    "downloadUrl": "https://raw.githubusercontent.com/Y-PLONI/otzaria_store/main/plugins/shmirat-sedarim/shmiz2.otzplugin",
     "homepage": "https://otzaria.org/forum/post/14019",
     "installInstructions": [
       "אם אוצריא מותקנת במחשב, אפשר ללחוץ על 'התקנה ישירה לאוצריא'.",
@@ -127,7 +127,7 @@
     "tags": ["מראה תואם לאוצריא", "מעשר כספים", "כספים", "תרומות", "ניהול אישי"],
     "image": "assets/images/maaser-manager.svg",
     "screenshots": [],
-    "downloadUrl": "https://raw.githubusercontent.com/lodbig/otzaria_store/main/plugins/maaser-manager/maaser-manager.otzplugin",
+    "downloadUrl": "https://raw.githubusercontent.com/Y-PLONI/otzaria_store/main/plugins/maaser-manager/maaser-manager.otzplugin",
     "homepage": "https://otzaria.org/forum/post/14565",
     "installInstructions": [
       "אם אוצריא מותקנת במחשב, אפשר ללחוץ על 'התקנה ישירה לאוצריא'.",
