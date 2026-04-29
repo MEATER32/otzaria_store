@@ -1,49 +1,43 @@
 (function() {
-    // בדיקה האם האתר רץ בתוך iframe
     const isEmbedded = window.self !== window.top;
 
-    // רק אם אנחנו מוטמעים, נפעיל את הלוגיקה של הריסייזר
     if (isEmbedded) {
+        // הוספת קלאסים לעיצוב
         document.documentElement.classList.add('is-embedded');
         document.body.classList.add('is-embedded');
 
-        function sendHeight() {
-            // מוודאים שהאלמנטים קיימים
-            const wrapper = document.querySelector('.page-shell') || document.body;
-            
-            // מדידת גובה התוכן האמיתי
-            const height = wrapper.scrollHeight;
+        const sendHeight = () => {
+            // שימוש ב-getBoundingClientRect כפי שהיה בקוד המקורי שלך
+            const height = document.body.getBoundingClientRect().height;
             const roundedHeight = Math.ceil(height);
 
-            // שליחה לאתר האב
-            window.parent.postMessage({ 
-                type: 'setHeight', 
-                height: roundedHeight 
-            }, '*');
+            if (roundedHeight > 0) {
+                window.parent.postMessage({ 
+                    type: 'setHeight', 
+                    height: roundedHeight 
+                }, '*');
+            }
+        };
+
+        // --- פתרון גלילה למעלה ---
+        // ברגע שהסקריפט הזה נטען (כלומר עברנו דף בתוך ה-iframe)
+        // אנחנו שולחים הודעה להורה שיגלול לתחילת ה-iframe
+        window.parent.postMessage({ type: 'scrollToTop' }, '*');
+
+        // --- שימוש ב-ResizeObserver על ה-body (כמו בבקשתך) ---
+        if (window.ResizeObserver) {
+            const resizeObserver = new ResizeObserver(() => {
+                sendHeight();
+            });
+            // מאזין בדיוק ל-document.body כפי שהיה במקור
+            resizeObserver.observe(document.body);
+        } else {
+            // Fallback למקרה שאין תמיכה ב-ResizeObserver
+            window.addEventListener('load', sendHeight);
+            const observer = new MutationObserver(sendHeight);
+            observer.observe(document.body, { attributes: true, childList: true, subtree: true });
         }
 
-        // האזנה לשינויים בתוכן
-        const observer = new MutationObserver(() => {
-            sendHeight();
-        });
-
-        window.addEventListener('load', () => {
-            sendHeight();
-            observer.observe(document.body, { 
-                attributes: true, 
-                childList: true, 
-                subtree: true 
-            });
-        });
-
-        // עדכון בשינוי גודל חלון
-        window.addEventListener('resize', sendHeight);
-        
-        // הפיכת הפונקציה לזמינה גלובלית לסקריפטים אחרים
         window.refreshIframeHeight = sendHeight;
-    } else {
-        // אם אנחנו לא בתוך iframe, נוודא שהקלאס לא קיים (למקרה של cache)
-        document.documentElement.classList.remove('is-embedded');
-        document.body.classList.remove('is-embedded');
     }
 })();
