@@ -31,6 +31,37 @@ html {
   scroll-behavior: smooth;
 }
 
+/* --- עיצוב רגיל (כשהאתר עומד בפני עצמו) --- */
+html, body {
+    overflow-y: auto; /* גלילה רגילה */
+    height: 100%;
+}
+
+html.is-embedded, 
+body.is-embedded {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    background: transparent;
+}
+
+/* ביטול ה"רצפה" של המעטפת שגורמת לבעיה */
+body.is-embedded .page-shell {
+    min-height: 0 !important;
+    height: auto !important;
+}
+
+/* הסתרת הניווט */
+body.is-embedded .site-header {
+    display: none !important;
+}
+
+body.is-embedded .page-main {
+    padding-top: 20px;
+}
+
+
+
 body {
   margin: 0;
   min-height: 100vh;
